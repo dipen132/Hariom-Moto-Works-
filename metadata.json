@@ -1,0 +1,8 @@
+{
+  "name": "HO Builds",
+  "description": "HO Builds — Motorcycle restoration, custom builds, metal fabrication, and performance atelier in Ankleshwar, Gujarat, India. Old Machines. New Life.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

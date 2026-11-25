@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-sans: "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-obsidian: #0b0b0a;
+  --color-charcoal: #131311;
+  --color-graphite: #1b1b18;
+  --color-hairline: #2b2b27;
+  --color-paper: #f3f1ec;
+  --color-paper-muted: #e6e2d8;
+  --color-ink: #111110;
+  --color-ash: #a19e97;
+  --color-accent: #d94e2a;
+  --color-accent-hover: #ea5e38;
+  --color-accent-dark: #b83a1a;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    background-color: var(--color-obsidian);
+    color: var(--color-paper);
+  }
+
+  body {
+    overflow-x: hidden;
+    letter-spacing: 0.005em;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+}
+
+/* Subtle photographic workshop grain texture */
+.workshop-grain {
+  background-image: radial-gradient(rgba(243, 241, 236, 0.045) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* Subtle hero zoom */
+@keyframes heroSlowZoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.06);
+  }
+}
+
+.animate-hero-zoom {
+  animation: heroSlowZoom 22s ease-out forwards;
+}
+
+/* Accessible range input overlay for Before/After comparison slider */
+.comparison-range {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: ew-resize;
+}
+
+.comparison-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  cursor: ew-resize;
+}
+
+.comparison-range::-moz-range-thumb {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  cursor: ew-resize;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-hero-zoom {
+    animation: none;
+  }
+}
