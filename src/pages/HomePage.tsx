@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { ArrowRight, ArrowUpRight, Check, ChevronLeft, ChevronRight, Expand, X } from 'lucide-react';
 import {
   MEDIA,
   MOTORCYCLE_BRANDS,
@@ -47,14 +47,65 @@ const QUICK_SERVICES = [
   },
 ] as const;
 
+const WORKSHOP_COLLAGE = [
+  {
+    src: MEDIA.tigFabrication,
+    title: 'Fabrication & Frame Work',
+    alt: 'Metal fabrication sparks inside the Hariom Moto Works workshop',
+    caption: 'In-house cutting, welding, and structural bracket fabrication.',
+  },
+  {
+    src: MEDIA.engineRebuild,
+    title: 'Cylinder Head & Bench Work',
+    alt: 'Mechanic assembling motorcycle cylinder head valves on steel workbench',
+    caption: 'Top-end rebuilds, valve work, and measured mechanical assembly.',
+  },
+  {
+    src: MEDIA.detailExhaust,
+    title: 'Exhaust & Hardware Fitment',
+    alt: 'Close-up of custom motorcycle exhaust and rear frame hardware',
+    caption: 'Precision exhaust alignment and clean mechanical finishing.',
+  },
+] as const;
+
 export function HomePage() {
   const [hoveredQuickIndex, setHoveredQuickIndex] = useState<number>(0);
   const [activeServiceIndex, setActiveServiceIndex] = useState<number>(0);
   const [activePartIndex, setActivePartIndex] = useState<number>(0);
+  const [activeStepIndex, setActiveStepIndex] = useState<number>(0);
+  const [collageLightboxIndex, setCollageLightboxIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (collageLightboxIndex === null) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setCollageLightboxIndex(null);
+      } else if (event.key === 'ArrowRight') {
+        setCollageLightboxIndex((prev) =>
+          prev === null ? null : (prev + 1) % WORKSHOP_COLLAGE.length
+        );
+      } else if (event.key === 'ArrowLeft') {
+        setCollageLightboxIndex((prev) =>
+          prev === null
+            ? null
+            : (prev - 1 + WORKSHOP_COLLAGE.length) % WORKSHOP_COLLAGE.length
+        );
+      }
+    };
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [collageLightboxIndex]);
 
   const featuredServices = SERVICES.filter((s) => s.featuredOnHome);
   const activeService = featuredServices[activeServiceIndex] ?? SERVICES[0];
   const activePart = PARTS_CATEGORIES[activePartIndex] ?? PARTS_CATEGORIES[0];
+  const activeProcessStep = PROCESS_STEPS[activeStepIndex] ?? PROCESS_STEPS[0];
+  const activeCollagePhoto =
+    collageLightboxIndex !== null ? WORKSHOP_COLLAGE[collageLightboxIndex] ?? null : null;
 
   return (
     <div className="bg-[#0B0B0A] text-[#F3F1EC]">
@@ -395,33 +446,110 @@ export function HomePage() {
             </Link>
           </SectionReveal>
 
-          {/* Editorial Photo Collage */}
+          {/* Editorial Photo Collage (Interactive Lightbox) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-            <div className="lg:col-span-7 overflow-hidden bg-[#131311] border border-[#2B2B27] group">
+            <button
+              type="button"
+              onClick={() => setCollageLightboxIndex(0)}
+              aria-label={`Inspect ${WORKSHOP_COLLAGE[0].title} full screen`}
+              className="lg:col-span-7 relative overflow-hidden bg-[#131311] border border-[#2B2B27] hover:border-[#D94E2A] transition-colors group text-left cursor-pointer"
+            >
               <SafeImage
-                src={MEDIA.tigFabrication}
-                alt="TIG welding a tubular steel motorcycle chassis on a workshop alignment jig"
+                src={WORKSHOP_COLLAGE[0].src}
+                alt={WORKSHOP_COLLAGE[0].alt}
                 className="w-full h-full min-h-[300px] aspect-[4/3] object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
               />
-            </div>
+              <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#0B0B0A]/85 border border-[#2B2B27] text-[10px] font-mono uppercase tracking-[0.16em] text-[#F3F1EC] opacity-85 group-hover:opacity-100 group-hover:border-[#D94E2A] transition-all">
+                <Expand className="w-3 h-3 text-[#D94E2A]" aria-hidden="true" />
+                <span>Inspect</span>
+              </span>
+            </button>
 
             <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-5">
-              <div className="overflow-hidden bg-[#131311] border border-[#2B2B27] group">
-                <SafeImage
-                  src={MEDIA.engineRebuild}
-                  alt="Mechanic assembling motorcycle cylinder head valves on steel workbench"
-                  className="w-full aspect-[16/10] object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                />
-              </div>
-              <div className="overflow-hidden bg-[#131311] border border-[#2B2B27] group">
-                <SafeImage
-                  src={MEDIA.detailExhaust}
-                  alt="Macro detail of stainless TIG exhaust welds, chain, sprocket, and drilled brake rotor"
-                  className="w-full aspect-[16/10] object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                />
-              </div>
+              {WORKSHOP_COLLAGE.slice(1).map((item, idx) => (
+                <button
+                  key={item.title}
+                  type="button"
+                  onClick={() => setCollageLightboxIndex(idx + 1)}
+                  aria-label={`Inspect ${item.title} full screen`}
+                  className="relative overflow-hidden bg-[#131311] border border-[#2B2B27] hover:border-[#D94E2A] transition-colors group text-left cursor-pointer"
+                >
+                  <SafeImage
+                    src={item.src}
+                    alt={item.alt}
+                    className="w-full aspect-[16/10] object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                  />
+                  <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#0B0B0A]/85 border border-[#2B2B27] text-[10px] font-mono uppercase tracking-[0.16em] text-[#F3F1EC] opacity-85 group-hover:opacity-100 group-hover:border-[#D94E2A] transition-all">
+                    <Expand className="w-3 h-3 text-[#D94E2A]" aria-hidden="true" />
+                    <span>Inspect</span>
+                  </span>
+                </button>
+              ))}
             </div>
           </div>
+
+          {activeCollagePhoto && collageLightboxIndex !== null && (
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-label={activeCollagePhoto.title}
+              className="fixed inset-0 z-50 bg-[#0B0B0A]/95 backdrop-blur-sm flex flex-col justify-between p-5 sm:p-8"
+            >
+              <div className="flex items-center justify-between border-b border-[#2B2B27] pb-4">
+                <div className="font-mono text-xs uppercase tracking-[0.18em] text-[#D94E2A]">
+                  Workshop Frame {collageLightboxIndex + 1} / {WORKSHOP_COLLAGE.length} ·{' '}
+                  <span className="text-[#F3F1EC]">{activeCollagePhoto.title}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setCollageLightboxIndex(null)}
+                  aria-label="Close workshop image preview"
+                  className="inline-flex items-center justify-center w-10 h-10 border border-[#2B2B27] text-[#F3F1EC] hover:border-[#D94E2A] hover:text-[#D94E2A] transition-colors cursor-pointer"
+                >
+                  <X className="w-5 h-5" aria-hidden="true" />
+                </button>
+              </div>
+
+              <div className="flex-1 flex items-center justify-center py-6 overflow-hidden">
+                <img
+                  src={activeCollagePhoto.src}
+                  alt={activeCollagePhoto.alt}
+                  className="max-h-[70vh] max-w-full object-contain border border-[#2B2B27]"
+                />
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-[#2B2B27] pt-4">
+                <p className="text-sm text-[#A19E97]">{activeCollagePhoto.caption}</p>
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setCollageLightboxIndex(
+                        (collageLightboxIndex - 1 + WORKSHOP_COLLAGE.length) %
+                          WORKSHOP_COLLAGE.length
+                      )
+                    }
+                    aria-label="Previous workshop photo"
+                    className="inline-flex items-center justify-center w-10 h-10 border border-[#2B2B27] text-[#F3F1EC] hover:border-[#D94E2A] transition-colors cursor-pointer"
+                  >
+                    <ChevronLeft className="w-4 h-4" aria-hidden="true" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setCollageLightboxIndex(
+                        (collageLightboxIndex + 1) % WORKSHOP_COLLAGE.length
+                      )
+                    }
+                    aria-label="Next workshop photo"
+                    className="inline-flex items-center justify-center w-10 h-10 border border-[#2B2B27] text-[#F3F1EC] hover:border-[#D94E2A] transition-colors cursor-pointer"
+                  >
+                    <ChevronRight className="w-4 h-4" aria-hidden="true" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -450,26 +578,89 @@ export function HomePage() {
           </SectionReveal>
 
           <ol className="grid grid-cols-1 lg:grid-cols-5 border-t border-[#2B2B27]">
-            {PROCESS_STEPS.map((step, idx) => (
-              <li
-                key={step.number}
-                className="py-8 lg:py-10 lg:pr-6 border-b lg:border-b-0 lg:border-r last:lg:border-r-0 border-[#2B2B27] lg:pl-6 first:lg:pl-0"
-              >
-                <SectionReveal delay={idx * 0.05} className="space-y-4">
-                  <span className="font-mono text-xs tracking-[0.18em] text-[#D94E2A] tabular-nums block">
-                    {step.number} — {step.title.toUpperCase()}
-                  </span>
-                  <h3 className="font-display text-3xl font-bold text-[#F3F1EC]">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm font-medium text-[#F3F1EC]/90">{step.shortLine}</p>
-                  <p className="text-xs text-[#A19E97] leading-relaxed">
-                    {step.description}
-                  </p>
-                </SectionReveal>
-              </li>
-            ))}
+            {PROCESS_STEPS.map((step, idx) => {
+              const isSelected = activeStepIndex === idx;
+              return (
+                <li
+                  key={step.number}
+                  className="border-b lg:border-b-0 lg:border-r last:lg:border-r-0 border-[#2B2B27]"
+                >
+                  <button
+                    type="button"
+                    onClick={() => setActiveStepIndex(idx)}
+                    aria-pressed={isSelected}
+                    className={`w-full h-full text-left py-8 lg:py-9 px-0 lg:px-5 first:lg:pl-0 transition-colors cursor-pointer relative group ${
+                      isSelected ? 'bg-[#1B1B18]/70 lg:px-5' : 'hover:bg-[#1B1B18]/35'
+                    }`}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className={`absolute top-0 inset-x-0 h-[2px] bg-[#D94E2A] transition-transform duration-300 origin-left ${
+                        isSelected ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-50'
+                      }`}
+                    />
+                    <div className="space-y-3 px-4 lg:px-0">
+                      <span className="font-mono text-xs tracking-[0.18em] text-[#D94E2A] tabular-nums block">
+                        {step.number} — {step.title.toUpperCase()}
+                      </span>
+                      <h3 className="font-display text-3xl font-bold text-[#F3F1EC]">
+                        {step.title}
+                      </h3>
+                      <p className="text-sm font-medium text-[#F3F1EC]/90">{step.shortLine}</p>
+                      <p className="text-xs text-[#A19E97] leading-relaxed">
+                        {step.description}
+                      </p>
+                    </div>
+                  </button>
+                </li>
+              );
+            })}
           </ol>
+
+          {/* Interactive Step Checklist & Visual Detail */}
+          <div className="mt-8 bg-[#0B0B0A] border border-[#2B2B27] grid grid-cols-1 lg:grid-cols-12 items-stretch">
+            <div className="lg:col-span-5 overflow-hidden bg-[#131311] border-b lg:border-b-0 lg:border-r border-[#2B2B27]">
+              <SafeImage
+                src={activeProcessStep.image}
+                alt={activeProcessStep.imageAlt}
+                className="w-full h-full min-h-[240px] aspect-[16/10] object-cover object-center"
+              />
+            </div>
+            <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-between gap-6">
+              <div className="space-y-4">
+                <p className="font-mono text-xs uppercase tracking-[0.18em] text-[#D94E2A]">
+                  Stage {activeProcessStep.number} Checklist · {activeProcessStep.title}
+                </p>
+                <ul className="space-y-3">
+                  {activeProcessStep.checklist.map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-sm text-[#F3F1EC]/90">
+                      <Check
+                        className="w-4 h-4 text-[#D94E2A] shrink-0 mt-0.5"
+                        aria-hidden="true"
+                      />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="pt-4 border-t border-[#2B2B27] flex flex-wrap items-center justify-between gap-4">
+                <span className="font-mono text-xs text-[#A19E97]">
+                  Select any stage above to inspect workshop standards.
+                </span>
+                <Link
+                  to="/contact"
+                  className="group inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#D94E2A] hover:text-[#F3F1EC] transition-colors"
+                >
+                  <span>Book Stage 01 Inspection</span>
+                  <ArrowRight
+                    className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
+                    aria-hidden="true"
+                  />
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

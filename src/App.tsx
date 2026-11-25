@@ -7,6 +7,7 @@ import React from 'react';
 import { RouterProvider, useRouter } from './components/RouterContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { QuickContactDock } from './components/QuickContactDock';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { BuildsPage } from './pages/BuildsPage';
@@ -63,6 +64,7 @@ export default function App() {
           <PageView />
         </main>
         <Footer />
+        <QuickContactDock />
       </div>
     </RouterProvider>
   );
