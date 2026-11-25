@@ -44,6 +44,12 @@ export const MEDIA = {
   engineRebuild: '/src/assets/images/workshop_engine_rebuild.jpg',
   tigFabrication: '/src/assets/images/workshop_tig_fabrication.jpg',
   detailExhaust: '/src/assets/images/detail_exhaust_metal.jpg',
+  cafeWall: '/src/assets/images/build_cafe_wall.jpg',
+  harleyTank: '/src/assets/images/build_harley_dark.jpg',
+  workshopLift: '/src/assets/images/workshop_green_bike.jpg',
+  mechanicWrench: '/src/assets/images/workshop_mechanic_wrench.jpg',
+  vintageDrive: '/src/assets/images/detail_vintage_engine.jpg',
+  tankDetail: '/src/assets/images/detail_tank_metal.jpg',
 } as const;
 
 /**

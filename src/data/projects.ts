@@ -118,19 +118,19 @@ export const PROJECTS: readonly BuildProject[] = [
     beforeImage: MEDIA.beforeClassic,
     processImages: [
       {
+        src: MEDIA.workshopLift,
+        caption: 'Up on the lift with cases and rear assembly prepped for custom fitment.',
+      },
+      {
         src: MEDIA.tigFabrication,
-        caption: 'Rear subframe hoop sculpted and TIG welded to meet the hand-shaped aluminum tail cowl.',
+        caption: 'Rear subframe hoop sculpted and welded for clean solo-seat lines.',
       },
       {
-        src: MEDIA.engineRebuild,
-        caption: 'Parallel-twin top end serviced, shimmed, and dressed in wrinkle-black thermal coat.',
-      },
-      {
-        src: MEDIA.detailExhaust,
-        caption: 'Custom rearset linkages and stainless slip-on collector alignment.',
+        src: MEDIA.mechanicWrench,
+        caption: 'Custom rearset linkages and exhaust bracket alignment.',
       },
     ],
-    finalImage: MEDIA.cafeTracker,
+    finalImage: MEDIA.cafeWall,
     aspectPreference: 'standard',
     story:
       'Built for an enthusiast who wanted the unmistakable punch of a British parallel twin stripped of every superfluous bracket and plastic cover. The brief called for honest raw metal, dark matte paintwork, and sharp cornering geometry.',
@@ -174,16 +174,16 @@ export const PROJECTS: readonly BuildProject[] = [
     beforeImage: MEDIA.beforeClassic,
     processImages: [
       {
-        src: MEDIA.tigFabrication,
-        caption: 'Fabricating the high-clearance exhaust routing and bash plate mounts on the frame jig.',
+        src: MEDIA.tankDetail,
+        caption: 'Front-end stance, knobby tire clearance, and tank proportion mock-up.',
       },
       {
         src: MEDIA.detailExhaust,
-        caption: 'Pie-cut stainless header welds left raw to show heat coloration.',
+        caption: 'High-clearance exhaust mounting and rear bracket torque check.',
       },
       {
-        src: MEDIA.engineRebuild,
-        caption: 'Complete engine refresh and carburetor jetting tuned for throttle response.',
+        src: MEDIA.vintageDrive,
+        caption: 'Drivetrain, chain tension, and primary cover inspection.',
       },
     ],
     finalImage: MEDIA.scramblerCustom,
@@ -230,16 +230,16 @@ export const PROJECTS: readonly BuildProject[] = [
     beforeImage: MEDIA.beforeClassic,
     processImages: [
       {
-        src: MEDIA.engineRebuild,
-        caption: 'Multi-cylinder valve inspection, timing calibration, and case refinishing.',
+        src: MEDIA.harleyTank,
+        caption: 'Custom tank finish and high-flow intake assembly.',
       },
       {
-        src: MEDIA.detailExhaust,
-        caption: 'Close-up of hand-fabricated stainless collector, drilled rotor, and machined pegs.',
+        src: MEDIA.mechanicWrench,
+        caption: 'Final mechanical torque checks and chassis hardware alignment.',
       },
       {
-        src: MEDIA.tigFabrication,
-        caption: 'Custom seat pan, hidden electrical tray, and frame clean-up.',
+        src: MEDIA.cafeTracker,
+        caption: 'Night lighting inspection of headlamp beam and cockpit wiring.',
       },
     ],
     finalImage: MEDIA.heroMain,
