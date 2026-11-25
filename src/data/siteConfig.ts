@@ -36,14 +36,14 @@ export const SITE_CONFIG = {
  * Replace these paths with new real workshop photography as shoots are added.
  */
 export const MEDIA = {
-  heroMain: '/src/assets/images/hero_reborn_motorcycle_1795598217690.jpg',
-  beforeClassic: '/src/assets/images/before_neglected_bike_1795598206864.jpg',
-  afterClassic: '/src/assets/images/after_restored_classic_1795598208355.jpg',
-  cafeTracker: '/src/assets/images/build_cafe_tracker_1795598208195.jpg',
-  scramblerCustom: '/src/assets/images/build_scrambler_custom_1795598209750.jpg',
-  engineRebuild: '/src/assets/images/workshop_engine_rebuild_1795598211905.jpg',
-  tigFabrication: '/src/assets/images/workshop_tig_fabrication_1795598213248.jpg',
-  detailExhaust: '/src/assets/images/detail_paint_exhaust_1795598212238.jpg',
+  heroMain: '/src/assets/images/build_cafe_tracker.jpg',
+  beforeClassic: '/src/assets/images/before_vintage_rust.jpg',
+  afterClassic: '/src/assets/images/after_classic_restored.jpg',
+  cafeTracker: '/src/assets/images/hero_workshop_bike.jpg',
+  scramblerCustom: '/src/assets/images/build_scrambler_custom.jpg',
+  engineRebuild: '/src/assets/images/workshop_engine_rebuild.jpg',
+  tigFabrication: '/src/assets/images/workshop_tig_fabrication.jpg',
+  detailExhaust: '/src/assets/images/detail_exhaust_metal.jpg',
 } as const;
 
 /**
