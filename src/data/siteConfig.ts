@@ -70,8 +70,7 @@ export const MOTORCYCLE_BRANDS: readonly string[] = [
 ];
 
 /**
- * BRAND STATISTICS — EDITABLE PLACEHOLDERS
- * Update these placeholder values once official workshop counts are confirmed.
+ * WORKSHOP HIGHLIGHTS
  */
 export interface BrandStat {
   id: string;
@@ -82,28 +81,28 @@ export interface BrandStat {
 
 export const BRAND_STATS: readonly BrandStat[] = [
   {
-    id: 'builds',
-    value: 'XX+',
-    label: 'Custom Builds',
-    note: 'One-off commissions completed',
+    id: 'brands',
+    value: '10+',
+    label: 'Motorcycle Marques',
+    note: 'Classic singles to modern multi-cylinder bikes',
   },
   {
-    id: 'restorations',
-    value: 'XX+',
-    label: 'Restorations',
-    note: 'Classic machines brought back',
+    id: 'process',
+    value: '5-Step',
+    label: 'Workshop Discipline',
+    note: 'Inspect, Diagnose, Plan, Build, Road Test',
   },
   {
-    id: 'experience',
-    value: 'XX+',
-    label: 'Years of Work',
-    note: 'Hands-on mechanical experience',
+    id: 'hours',
+    value: '6 Days',
+    label: 'Open Weekly',
+    note: 'Mon–Sat 09:30 AM – 07:30 PM · Sun by appt.',
   },
   {
-    id: 'motorcycles',
-    value: 'XX+',
-    label: 'Motorcycles',
-    note: 'Serviced, repaired, and tuned',
+    id: 'facility',
+    value: '1 Roof',
+    label: 'Complete Facility',
+    note: 'Parts, Repair, Restoration & Custom Builds',
   },
 ];
 

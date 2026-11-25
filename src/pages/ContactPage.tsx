@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowUpRight, CheckCircle2, MessageCircle, Upload, X } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, Mail, MessageCircle, Upload, X } from 'lucide-react';
 import { MOTORCYCLE_BRANDS, SITE_CONFIG } from '../data/siteConfig';
 import { SERVICES } from '../data/services';
 import {
@@ -268,10 +268,21 @@ export function ContactPage({ preselectedService }: ContactPageProps) {
                   href={submittedRecord.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 px-6 py-4 bg-[#F2EFE8] text-[#0A0A09] hover:bg-[#D94E2A] transition-colors text-xs font-semibold uppercase tracking-[0.14em]"
+                  className="inline-flex items-center gap-3 px-6 py-4 bg-[#F2EFE8] text-[#0A0A09] hover:bg-[#D94E2A] hover:text-[#F3F1EC] transition-colors text-xs font-semibold uppercase tracking-[0.14em]"
                 >
                   <MessageCircle className="w-4 h-4" aria-hidden="true" />
                   <span>Send Summary via WhatsApp</span>
+                </a>
+                <a
+                  href={`mailto:${SITE_CONFIG.contact.email}?subject=${encodeURIComponent(
+                    `Workshop Enquiry (${submittedRecord.referenceId}) — ${submittedRecord.summary.year} ${submittedRecord.summary.brand} ${submittedRecord.summary.model}`
+                  )}&body=${encodeURIComponent(
+                    `Name: ${submittedRecord.summary.name}\nPhone: ${submittedRecord.summary.phone}\nEmail: ${submittedRecord.summary.email}\nMotorcycle: ${submittedRecord.summary.year} ${submittedRecord.summary.brand} ${submittedRecord.summary.model}\nService: ${submittedRecord.summary.service}\n\nNotes:\n${submittedRecord.summary.description}`
+                  )}`}
+                  className="inline-flex items-center gap-2 px-6 py-4 border border-[#2A2926] text-[#F2EFE8] hover:border-[#D94E2A] transition-colors text-xs font-semibold uppercase tracking-[0.14em]"
+                >
+                  <Mail className="w-4 h-4" aria-hidden="true" />
+                  <span>Send via Email</span>
                 </a>
                 <button
                   type="button"

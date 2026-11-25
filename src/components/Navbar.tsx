@@ -146,7 +146,10 @@ export function Navbar() {
               const active =
                 item.path === '/'
                   ? currentPath === '/'
-                  : currentPath === item.path || currentPath.startsWith(`${item.path}/`);
+                  : currentPath === item.path ||
+                    currentPath.startsWith(`${item.path}/`) ||
+                    (item.path === '/workshop' &&
+                      (currentPath === '/gallery' || currentPath === '/process'));
               return (
                 <Link
                   key={item.path}

@@ -196,10 +196,20 @@ export function EnquirePage() {
                 href={submitted.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-7 py-4 bg-[#F2EFE8] text-[#0A0A09] hover:bg-[#D94E2A] transition-colors text-xs font-semibold uppercase tracking-[0.14em]"
+                className="inline-flex items-center gap-3 px-7 py-4 bg-[#F2EFE8] text-[#0A0A09] hover:bg-[#D94E2A] hover:text-[#F3F1EC] transition-colors text-xs font-semibold uppercase tracking-[0.14em]"
               >
                 <MessageCircle className="w-4 h-4" aria-hidden="true" />
                 <span>Send Brief via WhatsApp</span>
+              </a>
+              <a
+                href={`mailto:${SITE_CONFIG.contact.email}?subject=${encodeURIComponent(
+                  `Project Brief (${submitted.referenceId}) — ${form.year} ${form.brand} ${form.model}`
+                )}&body=${encodeURIComponent(
+                  `Owner: ${form.name} (${form.phone})\nEmail: ${form.email}\nMotorcycle: ${form.year} ${form.brand} ${form.model}\nCondition: ${form.condition}\nDirection: ${form.scopes.join(', ')}\n\nVision:\n${form.description}`
+                )}`}
+                className="px-7 py-4 border border-[#2A2926] text-xs font-semibold uppercase tracking-[0.14em] text-[#F2EFE8] hover:border-[#D94E2A] transition-colors"
+              >
+                Send via Email
               </a>
               <Link
                 to="/builds"
