@@ -1,4 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface SectionRevealProps {
   children: React.ReactNode;
@@ -12,52 +16,40 @@ export function SectionReveal({
   delay = 0,
 }: SectionRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
     const prefersReduced =
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (prefersReduced || typeof IntersectionObserver === 'undefined') {
-      setVisible(true);
+    if (prefersReduced) {
       return;
     }
 
-    const node = ref.current;
-    if (!node) return;
+    const ctx = gsap.context(() => {
+      gsap.from(node, {
+        y: 26,
+        opacity: 0,
+        duration: 0.75,
+        delay,
+        ease: 'power3.out',
+        clearProps: 'transform,opacity',
+        scrollTrigger: {
+          trigger: node,
+          start: 'top 90%',
+          once: true,
+        },
+      });
+    }, ref);
 
-    const rect = node.getBoundingClientRect();
-    if (rect.top < window.innerHeight * 0.95) {
-      setVisible(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.08, rootMargin: '0px 0px -32px 0px' }
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
+    return () => ctx.revert();
+  }, [delay]);
 
   return (
-    <div
-      ref={ref}
-      style={{
-        transitionDelay: `${Math.round(delay * 1000)}ms`,
-        transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-      }}
-      className={`transition-[opacity,transform] duration-500 will-change-[opacity,transform] ${
-        visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-      } ${className}`}
-    >
+    <div ref={ref} className={`will-change-[opacity,transform] ${className}`}>
       {children}
     </div>
   );

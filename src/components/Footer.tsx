@@ -14,13 +14,15 @@ export function Footer() {
           <div className="lg:col-span-4 space-y-5">
             <Link
               to="/"
-              className="inline-block font-display text-4xl font-bold tracking-[0.08em] uppercase text-[#F3F1EC]"
+              aria-label={`${SITE_CONFIG.brandName} Home`}
+              className="inline-block border border-[#2B2B27] hover:border-[#D94E2A] transition-colors bg-[#0B0B0A] overflow-hidden"
             >
-              {SITE_CONFIG.brandName}
+              <img
+                src="/logos/hariom-moto-works-emblem.jpg"
+                alt={`${SITE_CONFIG.brandName} — ${SITE_CONFIG.tagline}`}
+                className="w-60 sm:w-64 h-auto object-contain block"
+              />
             </Link>
-            <p className="font-mono text-xs tracking-[0.18em] uppercase text-[#D94E2A]">
-              Parts · Repair · Restoration · Builds
-            </p>
             <p className="text-sm text-[#A19E97] max-w-sm leading-relaxed">
               Motorcycle spare parts stockist, mechanical repair center, restoration workshop, and
               custom-build garage in {SITE_CONFIG.location.full}.

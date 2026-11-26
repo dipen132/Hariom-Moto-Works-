@@ -48,9 +48,15 @@ export function Navbar() {
           {/* Zone 1: Single-line Brand Wordmark */}
           <Link
             to="/"
-            className="font-display text-xl sm:text-2xl lg:text-[26px] font-bold tracking-[0.12em] uppercase text-[#F3F1EC] hover:text-[#D94E2A] transition-colors whitespace-nowrap shrink-0"
+            className="inline-flex items-center gap-3 font-display text-xl sm:text-2xl lg:text-[26px] font-bold tracking-[0.12em] uppercase text-[#F3F1EC] hover:text-[#D94E2A] transition-colors whitespace-nowrap shrink-0"
           >
-            {SITE_CONFIG.brandName}
+            <img
+              src="/logos/ho-monogram.svg"
+              alt=""
+              aria-hidden="true"
+              className="w-8 h-8 lg:w-9 lg:h-9 shrink-0"
+            />
+            <span>{SITE_CONFIG.brandName}</span>
           </Link>
 
           {/* Zone 2: Minimal Desktop Navigation Links */}
@@ -127,9 +133,15 @@ export function Navbar() {
             <Link
               to="/"
               onClick={() => setMobileOpen(false)}
-              className="font-display text-xl font-bold tracking-[0.12em] uppercase text-[#F3F1EC]"
+              className="inline-flex items-center gap-2.5 font-display text-xl font-bold tracking-[0.12em] uppercase text-[#F3F1EC]"
             >
-              {SITE_CONFIG.brandName}
+              <img
+                src="/logos/ho-monogram.svg"
+                alt=""
+                aria-hidden="true"
+                className="w-7 h-7 shrink-0"
+              />
+              <span>{SITE_CONFIG.brandName}</span>
             </Link>
             <button
               type="button"

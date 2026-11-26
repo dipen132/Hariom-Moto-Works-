@@ -1,5 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, ArrowUpRight, Check, ChevronLeft, ChevronRight, Expand, X } from 'lucide-react';
+
+gsap.registerPlugin(ScrollTrigger);
 import {
   MEDIA,
   MOTORCYCLE_BRANDS,
@@ -69,11 +73,63 @@ const WORKSHOP_COLLAGE = [
 ] as const;
 
 export function HomePage() {
+  const pageRef = useRef<HTMLDivElement>(null);
   const [hoveredQuickIndex, setHoveredQuickIndex] = useState<number>(0);
   const [activeServiceIndex, setActiveServiceIndex] = useState<number>(0);
   const [activePartIndex, setActivePartIndex] = useState<number>(0);
   const [activeStepIndex, setActiveStepIndex] = useState<number>(0);
   const [collageLightboxIndex, setCollageLightboxIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    const root = pageRef.current;
+    if (!root) return;
+
+    const prefersReduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReduced) {
+      return;
+    }
+
+    const ctx = gsap.context(() => {
+      gsap.from('[data-gsap="hero-item"]', {
+        y: 28,
+        opacity: 0,
+        duration: 0.85,
+        stagger: 0.09,
+        ease: 'power3.out',
+        clearProps: 'transform,opacity',
+      });
+
+      gsap.to('[data-gsap="hero-bg"]', {
+        yPercent: 10,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '[data-gsap="hero-section"]',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
+
+      gsap.from('[data-gsap="quick-card"]', {
+        y: 18,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.08,
+        ease: 'power2.out',
+        clearProps: 'transform,opacity',
+        scrollTrigger: {
+          trigger: '[data-gsap="quick-strip"]',
+          start: 'top 92%',
+          once: true,
+        },
+      });
+    }, pageRef);
+
+    return () => ctx.revert();
+  }, []);
 
   useEffect(() => {
     if (collageLightboxIndex === null) return;
@@ -108,10 +164,13 @@ export function HomePage() {
     collageLightboxIndex !== null ? WORKSHOP_COLLAGE[collageLightboxIndex] ?? null : null;
 
   return (
-    <div className="bg-[#0B0B0A] text-[#F3F1EC]">
+    <div ref={pageRef} className="bg-[#0B0B0A] text-[#F3F1EC]">
       {/* 01 — HERO SECTION */}
-      <section className="relative min-h-[88vh] lg:min-h-[94vh] flex flex-col justify-end overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
+      <section
+        data-gsap="hero-section"
+        className="relative min-h-[88vh] lg:min-h-[94vh] flex flex-col justify-end overflow-hidden"
+      >
+        <div data-gsap="hero-bg" className="absolute inset-0 overflow-hidden will-change-transform">
           <SafeImage
             src={MEDIA.heroMain}
             alt="Custom motorcycle inside the Hariom Moto Works workshop with workbench and tools"
@@ -131,21 +190,33 @@ export function HomePage() {
 
         <div className="relative z-10 max-w-[1440px] w-full mx-auto px-5 sm:px-8 lg:px-12 pt-28 pb-12 lg:pb-16">
           <div className="max-w-3xl space-y-5">
-            <p className="font-mono text-[11px] sm:text-xs tracking-[0.16em] sm:tracking-[0.22em] uppercase text-[#D94E2A]">
+            <p
+              data-gsap="hero-item"
+              className="font-mono text-[11px] sm:text-xs tracking-[0.16em] sm:tracking-[0.22em] uppercase text-[#D94E2A]"
+            >
               {SITE_CONFIG.heroKicker}
             </p>
 
-            <h1 className="font-display text-6xl sm:text-8xl lg:text-[112px] font-bold uppercase leading-[0.88] tracking-[0.01em] text-[#F3F1EC]">
+            <h1
+              data-gsap="hero-item"
+              className="font-display text-6xl sm:text-8xl lg:text-[112px] font-bold uppercase leading-[0.88] tracking-[0.01em] text-[#F3F1EC]"
+            >
               BUILT FOR
               <span className="block text-[#F3F1EC]">THE ROAD.</span>
             </h1>
 
-            <p className="text-base sm:text-lg text-[#F3F1EC]/85 max-w-xl leading-relaxed pt-1">
+            <p
+              data-gsap="hero-item"
+              className="text-base sm:text-lg text-[#F3F1EC]/85 max-w-xl leading-relaxed pt-1"
+            >
               Motorcycle parts, repairs, restoration and custom builds — all under one roof at{' '}
               <span className="text-[#F3F1EC] font-medium">{SITE_CONFIG.shortBrand}</span>.
             </p>
 
-            <div className="pt-4 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 max-w-sm sm:max-w-none">
+            <div
+              data-gsap="hero-item"
+              className="pt-4 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 max-w-sm sm:max-w-none"
+            >
               <Link
                 to="/services"
                 className="group inline-flex items-center justify-between sm:justify-center gap-3 h-13 px-7 bg-[#D94E2A] text-[#F3F1EC] hover:bg-[#EA5E38] transition-colors text-xs font-semibold uppercase tracking-[0.14em] whitespace-nowrap"
@@ -173,6 +244,7 @@ export function HomePage() {
 
       {/* 02 — QUICK SERVICE NAVIGATION STRIP (01 PARTS · 02 REPAIR · 03 RESTORATION · 04 BUILDS) */}
       <section
+        data-gsap="quick-strip"
         aria-label="Core capabilities overview"
         className="bg-[#131311] border-y border-[#2B2B27]"
       >
@@ -183,6 +255,7 @@ export function HomePage() {
               return (
                 <Link
                   key={item.number}
+                  data-gsap="quick-card"
                   to={item.to}
                   onMouseEnter={() => setHoveredQuickIndex(idx)}
                   onFocus={() => setHoveredQuickIndex(idx)}
