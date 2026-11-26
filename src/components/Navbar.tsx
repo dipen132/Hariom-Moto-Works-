@@ -51,10 +51,10 @@ export function Navbar() {
             className="inline-flex items-center gap-3 font-display text-xl sm:text-2xl lg:text-[26px] font-bold tracking-[0.12em] uppercase text-[#F3F1EC] hover:text-[#D94E2A] transition-colors whitespace-nowrap shrink-0"
           >
             <img
-              src="/logos/ho-monogram.svg"
+              src="/logos/hariom-icon.png"
               alt=""
               aria-hidden="true"
-              className="w-8 h-8 lg:w-9 lg:h-9 shrink-0"
+              className="w-9 h-9 lg:w-10 lg:h-10 shrink-0 object-contain"
             />
             <span>{SITE_CONFIG.brandName}</span>
           </Link>
@@ -136,10 +136,10 @@ export function Navbar() {
               className="inline-flex items-center gap-2.5 font-display text-xl font-bold tracking-[0.12em] uppercase text-[#F3F1EC]"
             >
               <img
-                src="/logos/ho-monogram.svg"
+                src="/logos/hariom-icon.png"
                 alt=""
                 aria-hidden="true"
-                className="w-7 h-7 shrink-0"
+                className="w-8 h-8 shrink-0 object-contain"
               />
               <span>{SITE_CONFIG.brandName}</span>
             </Link>

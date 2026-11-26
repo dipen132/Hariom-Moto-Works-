@@ -18,9 +18,9 @@ export function Footer() {
               className="inline-block border border-[#2B2B27] hover:border-[#D94E2A] transition-colors bg-[#0B0B0A] overflow-hidden"
             >
               <img
-                src="/logos/hariom-moto-works-emblem.jpg"
+                src="/logos/hariom-logo.png"
                 alt={`${SITE_CONFIG.brandName} — ${SITE_CONFIG.tagline}`}
-                className="w-60 sm:w-64 h-auto object-contain block"
+                className="w-56 sm:w-64 h-auto object-contain block"
               />
             </Link>
             <p className="text-sm text-[#A19E97] max-w-sm leading-relaxed">
